@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import React from "react";
+import {Switch, Route, BrowserRouter} from "react-router-dom";
+import Home from "./components/Home";
+import SignUp from "./components/SignUp";
+import Menu from './components/Menu'
+import Order from "./components/Order";
+import SignIn from "./components/SignIn";
+import KitchenClass from "./components/KitchenClass";
+import PizzaGarden from "./components/PizzaGarden"
+import OrderNew from "./components/OrderNew"
+import WaiterClass from "./components/WaiterClass";
+import SingInClass from "./components/SingInClass";
+import SignUpClass from "./components/SignUpClass";
+import AdminClass from "./components/Admin/AdminClass";
+import ManagerClass from "./components/Manager/ManagerClass";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+      <BrowserRouter>
+      <Switch>
+          <Route path={'/'} exact component={SingInClass}/>
+          <Route path={'/signup'} component={SignUpClass}/>
+          <Route path={'/pizzagarden/:id'} component={Home}/>
+          <Route exact path={'/pizzagarden/0'} component={Home}/>
+          <Route exact path={'/pizzagarden'} component={Home}/>
+          <Route path={'/menu'} component={PizzaGarden}/>
+          <Route path={'/kitchen'} component={KitchenClass}/>
+          <Route path={'/order'} component={OrderNew}/>
+          <Route path={'/waiter'} component={WaiterClass}/>
+          <Route path={'/admin'} component={AdminClass}/>
+          <Route path={'/manager'} component={ManagerClass}/>
+      </Switch>
+    </BrowserRouter>
+  )
 }
 
 export default App;

@@ -78,14 +78,23 @@ const useStyles = makeStyles((theme) => ({
     },
     cardContent: {
         flexGrow: 1,
+        marginBottom: -20
     },
     footer: {
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(6),
     },
     quantity: {
-        marginTop: theme.spacing(4),
-        width: 90
+        margin: theme.spacing(1),
+        width: 70,
+        marginLeft: -1,
+        marginBottom: -10
+
+    },
+    price:{
+        margin: theme.spacing(1),
+        marginLeft: -1,
+
     }
 }));
 
@@ -198,8 +207,13 @@ export default function Album(props) {
                                                 <Typography gutterBottom variant="h5" component="h2">
                                                     {item.name}
                                                 </Typography>
-                                                <Typography>
+                                                <Typography >
                                                     {item.description}
+                                                </Typography>
+                                            </CardContent>
+                                            <CardContent>
+                                                <Typography  variant='h6' className={classes.price}>
+                                                    {props.item.tableNumber == 0 || props.item.tableNumber == 1 ? item.price - (item.price * 0.1) : item.price} den {props.item.tableNumber == 0 || props.item.tableNumber == 1 ? <Typography variant='subtitle2' color='error'>-10%</Typography>: null}
                                                 </Typography>
                                                 <TextField
                                                     className={classes.quantity}
@@ -208,6 +222,7 @@ export default function Album(props) {
                                                     placeholder="0"
                                                     label="Quantity"
                                                     type="number"
+                                                    size="small"
                                                     InputLabelProps={{
                                                         shrink: true,
                                                     }}

@@ -13,7 +13,8 @@ class OrderNew extends Component{
             payment_done: false,
             tableNumber: this.props.location.state.tableNumber,
             removed: false,
-            confirmed: false
+            confirmed: false,
+            price: null
 
         }
         this.handleConfirmOrderButton = this.handleConfirmOrderButton.bind(this)

@@ -14,6 +14,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Box from '@material-ui/core/Box';
 import {Redirect, Link} from "react-router-dom";
+import TextField from "@material-ui/core/TextField/TextField";
 
 function Copyright() {
     return (
@@ -75,6 +76,10 @@ const useStyles = makeStyles((theme) => ({
             paddingBottom: theme.spacing(6),
         },
     },
+    quantity: {
+        marginTop: theme.spacing(4),
+        width: 70,
+    }
 }));
 
 const tiers = [
@@ -122,17 +127,21 @@ const footers = [
         title: 'Legal',
         description: ['Privacy policy', 'Terms of use'],
     },
+
 ];
 
 export default function Pricing(props) {
     const classes = useStyles();
     console.log(localStorage.getItem('phone_number'))
-    console.log(props.match.params.id)
-    if (localStorage.getItem('phone_number') === null && props.match.params.id != 0) {
-        return <Redirect to={{pathname: "/", state: {data: props.match.url}}}/>
+    console.log(props.tableNumber)
+    console.log(props.nextUrl)
+
+    let counter = 1
+    if (localStorage.getItem('phone_number') === null && props.tableNumber != 0) {
+        return <Redirect to={{pathname: "/", state: {data: props.nextUrl}}}/>
     }
-    if (props.match.params.id == 0){
-        return <Redirect to={{pathname: "/menu", state: {tableNumber: props.match.params.id}}} />
+    if (props.tableNumber == 0){
+        return <Redirect to={{pathname: "/menu", state: {tableNumber: props.tableNumber}}} />
     }
     return (
 
@@ -145,7 +154,7 @@ export default function Pricing(props) {
                     </Typography>
                     <nav>
                         <Button color='primary' variant='outlined' className={classes.link}>
-                        <Link variant="button" to={{pathname: '/menu', state: { tableNumber: props.match.params.id}}}  color="textPrimary" className={classes.link}>
+                        <Link variant="button" to={{pathname: '/menu', state: { tableNumber: props.tableNumber}}}  color="textPrimary" className={classes.link}>
                             Menu
                         </Link>
                         </Button>
@@ -159,7 +168,7 @@ export default function Pricing(props) {
                         </Button>
                     </nav>
                     <Button color='primary' variant='outlined' className={classes.link}>
-                        <Link variant="button" to={{pathname: '/order', state: { tableNumber: props.match.params.id}}}  color="textPrimary" className={classes.link}>
+                        <Link variant="button" to={{pathname: '/order', state: { tableNumber: props.tableNumber}}}  color="textPrimary" className={classes.link}>
                             Orders
                         </Link>
                     </Button>
@@ -176,40 +185,50 @@ export default function Pricing(props) {
                 </Typography>
             </Container>
             {/* End hero unit */}
-            <Container maxWidth="md" component="main">
+            <Container maxWidth='md'  component="main">
                 <Grid container spacing={5} alignItems="flex-end">
-                    {tiers.map((tier) => (
+                    {props.data.map((item) => (
                         // Enterprise card is full width at sm breakpoint
-                        <Grid item key={tier.title} xs={12} sm={tier.title === 'Enterprise' ? 12 : 6} md={4}>
+                        <Grid item key={item.rank} xs={12} sm={12} md={4}>
                             <Card>
                                 <CardHeader
-                                    title={tier.title}
-                                    subheader={tier.subheader}
+                                    title={item.name}
+                                    subheader={item.rank === 2 ? 'Best Choice!' : null}
                                     titleTypographyProps={{ align: 'center' }}
                                     subheaderTypographyProps={{ align: 'center' }}
-                                    action={tier.title === 'Pro' ? <StarIcon /> : null}
+                                    action={item.rank === 2 ? (
+                                        <StarIcon />
+                                         ): null}
                                     className={classes.cardHeader}
                                 />
                                 <CardContent>
                                     <div className={classes.cardPricing}>
                                         <Typography component="h2" variant="h3" color="textPrimary">
-                                            ${tier.price}
-                                        </Typography>
-                                        <Typography variant="h6" color="textSecondary">
-
+                                            {item.price} den
                                         </Typography>
                                     </div>
-                                    <ul>
-                                        {tier.description.map((line) => (
-                                            <Typography component="li" variant="subtitle1" align="center" key={line}>
-                                                {line}
-                                            </Typography>
-                                        ))}
-                                    </ul>
+                                    <div className={classes.cardPricing}>
+                                        <Typography  variant='subtitle2' color='textSecondary'>
+                                            {item.description}
+                                        </Typography>
+                                    </div>
+                                    <TextField
+                                        className={classes.quantity}
+                                        id="outlined-number"
+                                        placeholder="0"
+                                        label="Quantity"
+                                        size="small"
+                                        onChange={(event) => props.onQuantityChange(event.target.value)}
+                                        type="number"
+                                        InputLabelProps={{
+                                            shrink: true,
+                                        }}
+                                        variant="outlined"
+                                    />
                                 </CardContent>
                                 <CardActions>
-                                    <Button fullWidth variant={tier.buttonVariant} color="primary">
-                                        {tier.buttonText}
+                                    <Button onClick={() => props.onOrderButtonClick(item.id)} fullWidth variant='contained' color="primary">
+                                        Order NOW!
                                     </Button>
                                 </CardActions>
                             </Card>

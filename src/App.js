@@ -14,6 +14,7 @@ import SingInClass from "./components/SingInClass";
 import SignUpClass from "./components/SignUpClass";
 import AdminClass from "./components/Admin/AdminClass";
 import ManagerClass from "./components/Manager/ManagerClass";
+import HomeClass from "./components/HomeClass";
 
 
 function App() {
@@ -22,9 +23,9 @@ function App() {
       <Switch>
           <Route path={'/'} exact component={SingInClass}/>
           <Route path={'/signup'} component={SignUpClass}/>
-          <Route path={'/pizzagarden/:id'} component={Home}/>
-          <Route exact path={'/pizzagarden/0'} component={Home}/>
-          <Route exact path={'/pizzagarden'} component={Home}/>
+          <Route path={'/pizzagarden/:id'} component={HomeClass}/>
+          <Route exact path={'/pizzagarden/0'} component={HomeClass}/>
+          <Route exact path={'/pizzagarden'} component={HomeClass}/>
           <Route path={'/menu'} component={PizzaGarden}/>
           <Route path={'/kitchen'} component={KitchenClass}/>
           <Route path={'/order'} component={OrderNew}/>

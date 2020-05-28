@@ -130,12 +130,17 @@ function onLogOut() {
 export default function Checkout(props) {
     const classes = useStyles();
     const total = props.item.orders.reduce((prev,next) => prev + next.meal_price * next.quantity,0);
+    const total_discount = props.item.orders.reduce((prev, next)=> prev + (next.meal_price-(next.meal_price *0.1)) * next.quantity,0)
     const active = props.item.orders.every(element => element.active_order == 1)
-    const done = props.item.orders.every(element => element.payment_done == 1)
 
-    console.log(props.item)
-    console.log(props.item.tableNumber)
-    console.log(props.removed)
+    if (props.item.tableNumber == 1 ){
+        props.item.price = total_discount
+    }
+    else
+        props.item.price = total
+
+    console.log(props.item.price)
+
     if(props.item.payment_done === true){
         return <Redirect to={{pathname: "/", state: {message: "Thank you for using eMenu! Come by again"}}}/>
     }
@@ -176,7 +181,7 @@ export default function Checkout(props) {
                                 <ListItemText className={classes.listItem} primary={product.meal_name} secondary={product.meal_description}/>
                                 <Typography>Quantity: {product.quantity}</Typography>
                                 <Typography className={classes.price}
-                                            variant="subtitle1">{product.meal_price * product.quantity}den</Typography>
+                                            variant="subtitle1">{props.item.tableNumber == 1 ? (product.meal_price - (product.meal_price * 0.10)) * product.quantity: product.meal_price * product.quantity}den</Typography>
                                 <Button type="submit"  className={classes.button}
                                         variant="contained" color="secondary" onClick={() => props.onRemove(product.id)}>
                                     Remove
@@ -185,7 +190,7 @@ export default function Checkout(props) {
                         ))}
                         <ListItemText primary="Total"/>
                         <Typography variant="subtitle1" className={classes.total}>
-                            {total}
+                            {props.item.tableNumber == 1 ? total_discount : total}
                         </Typography>
 
                         <React.Fragment>

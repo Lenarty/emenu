@@ -109,7 +109,10 @@ export default function Waiter(props) {
             primary: green,
         },
     });
-    const total = props.item.reduce((prev,next) => prev + next.meal_price * next.quantity,0);
+    props.item.map(item =>
+        item.phon
+    )
+    let total = 0
 
     console.log(b)
     return (
@@ -147,14 +150,25 @@ export default function Waiter(props) {
                                                     {props.item.map((item) =>
                                                         user === item.phone_number && item.payment_done === 0 ?
                                                         (
-                                                        item.meal_name
+                                                            <Typography>
+                                                                {item.quantity}x {item.meal_name}
+                                                            </Typography>
                                                         ):null)}
                                                         <Divider />
                                                 </Typography>
-                                                <Typography>
-                                                    {total}
-                                                </Typography>
+                                                <Typography hidden>
+                                                    {props.item.map((item) =>
+                                                            user === item.phone_number && item.payment_done === 0 ? (
+                                                                item.table_number == 1 ? total += (item.meal_price-(item.meal_price * 0.1)) * item.quantity : total += item.meal_price * item.quantity
 
+                                                            ):null
+
+                                                    )}
+                                                </Typography>
+                                                {total}
+                                                <div hidden>
+                                                {total = 0}
+                                                </div>
                                                 <CardActions>
                                                     <Button onClick={() => props.onClick(user)} size="medium" color="primary">
                                                         Make payment

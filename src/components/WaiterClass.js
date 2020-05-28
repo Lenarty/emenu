@@ -40,6 +40,19 @@ class WaiterClass extends Component {
                         'payment_done': true
                     })
             ) : null)
+        this.state.items.map(_data =>
+            _data.phone_number === _id ? (
+                    axios.post("http://127.0.0.1:5000/data",{
+                        'order_id': _data.order_id,
+                        'name': _data.meal_name,
+                        'description': _data.meal_description,
+                        'type': _data.meal_type,
+                        'price': _data.meal_price,
+                        'phone_number': _data.phone_number
+                    }).then(r => console.log(r))
+
+            ):null
+        )
         this.state.orders.map(_odata => (
             _odata.phone_number === _id ? (
                     axios.delete("http://127.0.0.1:5000/order",
